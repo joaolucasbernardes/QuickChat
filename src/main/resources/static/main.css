@@ -233,15 +233,22 @@ body {
     }
 }
 
+/* --- Responsividade para Smartphones (telas até 768px de largura) --- */
 @media (max-width: 768px) {
+    /* Adicionamos a tag html para garantir a altura de 100% */
+    html, body {
+        height: 100%;
+        overflow: hidden; /* Previne o scroll do body */
+    }
+
     body {
         align-items: flex-start;
         animation-duration: 20s;
     }
 
     #main-container {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         max-height: none;
         border-radius: 0;
         border: none;
@@ -267,6 +274,10 @@ body {
 
     #message-form {
         padding: 15px;
+    }
+
+    #message-form .form-control {
+        font-size: 16px;
     }
 
     .chat-header {
