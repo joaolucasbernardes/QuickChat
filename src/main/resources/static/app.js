@@ -1,5 +1,9 @@
+// Determina o protocolo WebSocket correto (wss para https, ws para http)
+const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const brokerURL = protocol + '//' + window.location.host + '/quickchat-websocket';
+
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://' + window.location.host + '/quickchat-websocket'
+    brokerURL: brokerURL
 });
 
 stompClient.onConnect = (frame) => {
@@ -31,7 +35,13 @@ function setConnected(connected) {
 }
 
 function connect() {
-    stompClient.activate();
+    // Validação para garantir que o nome de usuário foi inserido
+    const username = $("#user").val().trim();
+    if (username) {
+        stompClient.activate();
+    } else {
+        alert("Por favor, digite um nome de usuário para entrar no chat.");
+    }
 }
 
 function disconnect() {
@@ -41,11 +51,15 @@ function disconnect() {
 }
 
 function sendMessage() {
-    stompClient.publish({
-        destination: "/app/new-message",
-        body: JSON.stringify({'user': $("#user").val(), 'message': $("#message").val()})
-    });
-    $("#message").val("");
+    const messageContent = $("#message").val().trim();
+    // Garante que mensagens vazias não sejam enviadas
+    if (messageContent) {
+        stompClient.publish({
+            destination: "/app/new-message",
+            body: JSON.stringify({'user': $("#user").val(), 'message': messageContent})
+        });
+        $("#message").val("");
+    }
 }
 
 function updateLiveChat(message) {
@@ -54,17 +68,20 @@ function updateLiveChat(message) {
 
     chatWindow.append(messageBubble);
 
+    // Rola a janela para a mensagem mais recente
     chatWindow.scrollTop(chatWindow[0].scrollHeight);
 }
 
 $(function () {
-    $("#connect-section form").on('submit', (e) => e.preventDefault());
-
+    // O formulário de conexão não precisa de um handler de submit, pois o botão tem um .click()
+    
+    // Configura o formulário de envio de mensagem
     $("#message-form").on('submit', (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Previne que a página recarregue
         sendMessage();
     });
 
+    // Liga as funções aos botões
     $("#connect").click(() => connect());
     $("#disconnect").click(() => disconnect());
 });
