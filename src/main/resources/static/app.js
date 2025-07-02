@@ -1,11 +1,11 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://' + window.location.host + '/buildrun-livechat-websocket'
+    brokerURL: 'ws://' + window.location.host + '/quickchat-websocket'
 });
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topics/livechat', (message) => {
+    stompClient.subscribe('/topics/quickchat', (message) => {
         updateLiveChat(JSON.parse(message.body).content);
     });
 };
