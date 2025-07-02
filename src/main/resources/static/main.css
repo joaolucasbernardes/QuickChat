@@ -1,6 +1,5 @@
-/* CÓDIGO CORRIGIDO COM CORES MAIS VIVAS */
 body {
-    background: linear-gradient(135deg, #4c1d3d, #171831);
+    background: linear-gradient(135deg, #0D2B30, #2C2A5A);
     color: #e0e0e0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -10,10 +9,10 @@ body {
     margin: 0;
     overflow: hidden;
 
-    /* A animação permanece a mesma */
     background-size: 400% 400%;
-    animation: moveGradient 8s ease infinite;
+    animation: moveGradient 12s ease infinite;
 }
+
 
 /* Container principal */
 #main-container {
@@ -115,7 +114,7 @@ body {
     border-radius: 20px;
     max-width: 75%;
     background-color: #2f3055;
-    align-self: flex-start; /* Padrão para mensagens recebidas */
+    align-self: flex-start;
     border-bottom-left-radius: 5px;
     animation: fadeIn 0.5s ease-in-out;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -220,5 +219,57 @@ body {
     }
     100% {
         background-position: 0% 50%;
+    }
+}
+
+@media (max-width: 992px) {
+    #main-container {
+        max-width: 95%;
+        height: 95vh;
+    }
+
+    .logo {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        animation-duration: 20s;
+    }
+
+    #main-container {
+        width: 100vw;
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .logo {
+        font-size: 3rem;
+        margin-top: 20px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    #chat-window {
+        padding: 15px;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+    }
+
+    #message-form {
+        padding: 15px;
+    }
+
+    .chat-header {
+        padding: 12px 20px;
     }
 }

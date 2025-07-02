@@ -1,4 +1,3 @@
-// Determina o protocolo WebSocket correto (wss para https, ws para http)
 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const brokerURL = protocol + '//' + window.location.host + '/quickchat-websocket';
 
@@ -35,7 +34,6 @@ function setConnected(connected) {
 }
 
 function connect() {
-    // Validação para garantir que o nome de usuário foi inserido
     const username = $("#user").val().trim();
     if (username) {
         stompClient.activate();
@@ -52,7 +50,6 @@ function disconnect() {
 
 function sendMessage() {
     const messageContent = $("#message").val().trim();
-    // Garante que mensagens vazias não sejam enviadas
     if (messageContent) {
         stompClient.publish({
             destination: "/app/new-message",
@@ -62,26 +59,22 @@ function sendMessage() {
     }
 }
 
+
 function updateLiveChat(message) {
     const chatWindow = $("#chat-window");
-    const messageBubble = $("<div>").addClass("message-bubble").text(message);
+    const messageBubble = $("<div>").addClass("message-bubble").html(message);
 
     chatWindow.append(messageBubble);
 
-    // Rola a janela para a mensagem mais recente
     chatWindow.scrollTop(chatWindow[0].scrollHeight);
 }
 
 $(function () {
-    // O formulário de conexão não precisa de um handler de submit, pois o botão tem um .click()
-    
-    // Configura o formulário de envio de mensagem
     $("#message-form").on('submit', (e) => {
-        e.preventDefault(); // Previne que a página recarregue
+        e.preventDefault();
         sendMessage();
     });
 
-    // Liga as funções aos botões
     $("#connect").click(() => connect());
     $("#disconnect").click(() => disconnect());
 });
