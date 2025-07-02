@@ -20,13 +20,13 @@ stompClient.onStompError = (frame) => {
 };
 
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
-        $("#conversation").show();
-    }
-    else {
-        $("#conversation").hide();
+        $("#connect-section").hide();
+        $("#chat-section").show();
+    } else {
+        $("#connect-section").show();
+        $("#chat-section").hide();
     }
 }
 
@@ -49,12 +49,22 @@ function sendMessage() {
 }
 
 function updateLiveChat(message) {
-    $("#livechat").append("<tr><td>" + message + "</td></tr>");
+    const chatWindow = $("#chat-window");
+    const messageBubble = $("<div>").addClass("message-bubble").text(message);
+
+    chatWindow.append(messageBubble);
+
+    chatWindow.scrollTop(chatWindow[0].scrollHeight);
 }
 
 $(function () {
-    $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).click(() => connect());
-    $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendMessage());
+    $("#connect-section form").on('submit', (e) => e.preventDefault());
+
+    $("#message-form").on('submit', (e) => {
+        e.preventDefault();
+        sendMessage();
+    });
+
+    $("#connect").click(() => connect());
+    $("#disconnect").click(() => disconnect());
 });
